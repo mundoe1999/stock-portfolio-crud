@@ -29,6 +29,29 @@ router.get('/', (req, res) => {
     });
 });
 
+router.get('/group', (req,res) => {
+    // Splits the authorization Header to get the JWT
+    let token = req.header('authorization').split(' ');
+ 
+    jwt.verify(token[1], 'secretKey', (err,decoded) => {
+      if(!decoded){
+        return res.status(500).json({transactions: []});
+      }
+      // Gets all Transactions
+        Transaction.aggregate([
+          {$match: {user_id: mongoose.Types.ObjectId(decoded.user._id)}},
+          {$group: 
+            {_id:"$symbol", 
+            totalStocks: 
+              { $sum: {$multiply: ["$price_bought", "$quantity"]} }
+            }
+          }], (err,list)=> {
+            console.log(err);
+            res.status(200).json({transactions:list})
+          })
+    });
+})
+
 router.post('/', (req,res) => {
   let token = req.header('authorization').split(' ');
   jwt.verify(token[1],'secretKey', (err,decoded) => {
