@@ -8,11 +8,12 @@ const PORT = 3001;
 // App Configuration
 //
 
-const passport = require('passport');
+var passport = require('passport');
 const session = require('express-session');
 app.use(express.json());
 
 //Initialize passport 
+require('./auth');
 app.use(session({
   secret: 'test',
   saveUninitialized: false,
@@ -21,6 +22,7 @@ app.use(session({
 
 app.use(passport.initialize());
 app.use(passport.session());
+
 
 
 /*********************************************************
@@ -46,11 +48,13 @@ db.on('error', () => {
 // Route Setup
 // **************************************************************************
 const ACCOUNT_ROUTE = require('./routes/account');
+const TRANSACTION_ROUTE = require('./routes/transaction');
 
 app.get('/', (req,res) => {
   res.send("Connection made to API")
 })
 
 app.use('/account', ACCOUNT_ROUTE);
+app.use('/stock', TRANSACTION_ROUTE);
 
 app.listen(PORT, () => console.log(`Listening to port ${PORT}`))
