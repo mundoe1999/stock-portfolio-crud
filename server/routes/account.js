@@ -26,10 +26,13 @@ const Account = require('../models/account');
    });
  });
 
- passport.use(
-   new LocalStrategy((email, password, done) => {
+ passport.use( new LocalStrategy({
+    usernameField: "email",
+    passwordField: "password"
+  },
+  (username, password, done) => {
     Account.findOne({
-      email: email
+      email: username
     })
     .then(user => {
       // User has not been found
@@ -79,10 +82,11 @@ router.post('/register', (req,res) => {
           _id: new mongoose.Types.ObjectId(),
           email: req.body.email,
           name: req.body.name,
-          password: hash
+          password: hash,
+          balance: 5000
         };
 
-        // Generate account
+        // Add account to database
         const _account = new Account(accountObject);
         _account
           .save()
@@ -100,4 +104,39 @@ router.post('/register', (req,res) => {
   });
 });
 
+router.post('/login', (req,res, next) => {
+
+  passport.authenticate("local", (err, user) => {
+
+    if(!user)
+      return res.status(400).json({message:"Wrong email or Password"});
+    
+    // Only return information needed for auth
+    req.logIn(user, err => {
+        if(err){
+          console.log(err);
+          return res.status(500).json({message:"Cannot login at this time. Try again later"});
+        }
+
+      // Signing Json Web Token
+      jwt.sign(
+        {user}, "secretKey", {expiresIn: '1h'},
+        (err, token) => {
+          if(err) {
+            console.log(err);
+            return res.status(500).json({message:"Cannot login at this time. Try again later"})
+          }
+
+          // Send response
+          res.status(200).json({
+            success: true,
+            user: user,
+            token: token
+          });
+        }
+      );
+    });
+
+  })(req,res,next);
+});
 module.exports = router;

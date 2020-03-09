@@ -8,7 +8,19 @@ const PORT = 3001;
 // App Configuration
 //
 
+const passport = require('passport');
+const session = require('express-session');
 app.use(express.json());
+
+//Initialize passport 
+app.use(session({
+  secret: 'test',
+  saveUninitialized: false,
+  resave: false
+}))
+
+app.use(passport.initialize());
+app.use(passport.session());
 
 
 /*********************************************************
