@@ -1,17 +1,17 @@
 import React, {Component} from 'react';
 //import {Link} from 'react-router-dom';
-import PortfolioTable from '../tables/PortfolioTable';
+import AllTransactionTable from '../tables/AllTransactionTable';
 
-class PortfolioPage extends Component{
+class TransactionPage extends Component{
 
   // Call the portfolio page here
   render(){
     return(
       <div>
-        <PortfolioTable/>
+        <AllTransactionTable/>
       </div>
     )
   } 
 }
 
-export default PortfolioPage;
+export default TransactionPage;

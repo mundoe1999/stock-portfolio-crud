@@ -40,22 +40,12 @@ getPreviousStock = (symbol) => {
   });
 }
 
-router.get('/compare/:symbol', async (req,res) => {
-  // Get Prices based on API
-  let currentPrice = await getLatestStock(req.params.symbol);
-  let LastPrice = await getPreviousStock(req.params.symbol);
 
-  // Return color to change CSS
-  if(currentPrice > LastPrice){
-    res.status(200).json({color: 'green'})
-  }
-  else if(currentPrice < LastPrice){
-    res.status(200).json({color: 'red'})
-  }
-  else {
-    res.status(200).json({color: 'gray'})
-  }
-});
+priceDifference = (latest, prior) => {
+  if(latest > prior) return 'green'
+  if(latest < prior) return 'red'
+  return 'gray';
+}
 
 router.get('/', (req, res) => {
   // Splits the authorization Header to get the JWT
@@ -101,7 +91,12 @@ router.get('/group', (req,res) => {
 
             // Iterate through entire list and get total transactions
             for(let i = 0; i < list.length; i++){
-              list[i].totalAmount = (list[i].totalStocks *  await getLatestStock(list[i]._id)).toFixed(2);
+              // Get Ticket costs
+              let currentPrice = await getLatestStock(list[i]._id);
+              let lastPrice = await getPreviousStock(list[i]._id);
+            
+              list[i].totalAmount = (list[i].totalStocks * currentPrice.toFixed(2));
+              list[i].color = priceDifference(currentPrice, lastPrice);
             }
             res.status(200).json({transactions:list})
           })

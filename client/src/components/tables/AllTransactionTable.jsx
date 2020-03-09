@@ -30,8 +30,8 @@ class AllTransactionTable extends Component {
           </tr>
         </thead>
         <tbody>
-          {this.state.list.map((item) => (
-            <tr>
+          {this.state.list.map((item, key) => (
+            <tr key={key}>
               <td>{item.createdAt}</td>
               <td>{item.symbol}</td>
               <td>{item.price_bought}</td>
