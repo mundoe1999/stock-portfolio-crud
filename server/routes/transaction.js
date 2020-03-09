@@ -8,6 +8,7 @@ const jwt = require('jsonwebtoken');
 
 const mongoose = require('mongoose');
 const Transaction = require('../models/transaction');
+const Account = require('../models/account');
 
 
  getLatestStock = (symbol) => {
@@ -81,30 +82,46 @@ router.post('/', (req,res) => {
     // Calls Stock API to get Current price of stocks
     
     let price = await getLatestStock(req.body.symbol);
+    // Get Users Money
 
- 
-    let transactionObject = {
-      _id: new mongoose.Types.ObjectId,
-      user_id: decoded.user._id,
-      symbol: req.body.symbol,
-      quantity: req.body.quantity,
-      price_bought: price
-    }
+      let user_id = decoded.user;
 
-    // Add transaction to database
-    const _transaction = new Transaction(transactionObject);
-    _transaction
-      .save()
-      .then( result => {
-        res.status(200).json(result);
-        console.log("Transaction Successfull!")
-      })
-      .catch( err => {
-        console.log(err);
-        res.status(409).json({message: "Transasction Failed"});
-      })
+      Account.findById(user_id._id)
+       .exec((err, person) => {
+         // If not enough Money, break
+         let totalSum = price * req.body.quantity;
+         if(person.balance < totalSum){
+           return res.status(400).json({message: "Not enough Money"});
+         }
+
+         // If user has enough money, update balance and add transaction
+         let newBalance = person.balance - totalSum;
+         Account.updateOne({_id: user_id._id}, {$set: {balance: newBalance}})
+         .exec();
+
+        // Add new transaction
+        let transactionObject = {
+          _id: new mongoose.Types.ObjectId,
+          user_id: decoded.user._id,
+          symbol: req.body.symbol,
+          quantity: req.body.quantity,
+          price_bought: price
+        }
     
-  })
+        // Add transaction to database
+        const _transaction = new Transaction(transactionObject);
+        _transaction
+          .save()
+          .then( result => {
+            res.status(200).json(result);
+            console.log("Transaction Successfull!")
+          })
+          .catch( err => {
+            console.log(err);
+            res.status(409).json({message: "Transasction Failed"});
+          });
+      });     
+  });
 })
 
 module.exports = router;

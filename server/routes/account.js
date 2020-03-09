@@ -82,7 +82,7 @@ router.post('/login', (req,res, next) => {
 
       // Signing Json Web Token
       jwt.sign(
-        {user}, "secretKey", {expiresIn: '1h'},
+        {user}, "secretKey", {expiresIn: '4h'},
         (err, token) => {
           if(err) {
             console.log(err);
