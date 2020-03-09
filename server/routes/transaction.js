@@ -38,6 +38,8 @@ router.get('/group', (req,res) => {
         return res.status(500).json({transactions: []});
       }
       // Gets all Transactions
+
+      /* NOTE: Replace $Price_bought with an API call that checks for the latest stock price */
         Transaction.aggregate([
           {$match: {user_id: mongoose.Types.ObjectId(decoded.user._id)}},
           {$group: 
@@ -46,7 +48,7 @@ router.get('/group', (req,res) => {
               { $sum: {$multiply: ["$price_bought", "$quantity"]} }
             }
           }], (err,list)=> {
-            console.log(err);
+            
             res.status(200).json({transactions:list})
           })
     });
