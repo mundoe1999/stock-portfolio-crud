@@ -1,10 +1,28 @@
 const express = require("express");
 const router = express.Router();
+const axios = require('axios');
+require('dotenv').config();
+
 
 const jwt = require('jsonwebtoken');
 
 const mongoose = require('mongoose');
 const Transaction = require('../models/transaction');
+
+
+ getLatestStock = (symbol) => {
+  let url = `https://cloud.iexapis.com/stable/stock/${symbol}/quote/latestPrice?token=${process.env.IEX_TOKEN}`;
+  return axios
+  .get(url)
+  .then(res => {
+    return res.data;
+  })
+  .catch(err => {
+    console.log("Invalid Stock Symbol");
+    return -1;
+  });
+
+}
 
 router.get('/', (req, res) => {
   // Splits the authorization Header to get the JWT
@@ -33,22 +51,25 @@ router.get('/group', (req,res) => {
     // Splits the authorization Header to get the JWT
     let token = req.header('authorization').split(' ');
  
-    jwt.verify(token[1], 'secretKey', (err,decoded) => {
+    jwt.verify(token[1], 'secretKey', async (err,decoded) => {
       if(!decoded){
         return res.status(500).json({transactions: []});
       }
       // Gets all Transactions
-
-      /* NOTE: Replace $Price_bought with an API call that checks for the latest stock price */
         Transaction.aggregate([
           {$match: {user_id: mongoose.Types.ObjectId(decoded.user._id)}},
           {$group: 
             {_id:"$symbol", 
             totalStocks: 
-              { $sum: {$multiply: ["$price_bought", "$quantity"]} }
+              { $sum: "$quantity" }
+
             }
-          }], (err,list)=> {
-            
+          }], async (err,list)=> {
+
+            // Iterate through entire list and get total transactions
+            for(let i = 0; i < list.length; i++){
+              list[i].totalAmount = (list[i].totalStocks *  await getLatestStock(list[i]._id)).toFixed(2);
+            }
             res.status(200).json({transactions:list})
           })
     });
@@ -56,11 +77,12 @@ router.get('/group', (req,res) => {
 
 router.post('/', (req,res) => {
   let token = req.header('authorization').split(' ');
-  jwt.verify(token[1],'secretKey', (err,decoded) => {
+  jwt.verify(token[1],'secretKey', async (err,decoded) => {
     // Calls Stock API to get Current price of stocks
-    let price = 20; // STUB
+    
+    let price = await getLatestStock(req.body.symbol);
 
-
+ 
     let transactionObject = {
       _id: new mongoose.Types.ObjectId,
       user_id: decoded.user._id,
