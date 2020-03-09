@@ -53,7 +53,7 @@ router.post('/register', (req,res) => {
         _account
           .save()
           .then( result => {
-            res.status(200).json(result);
+            res.status(200).send(true);
             console.log("Account Created");
           })
           .catch( err => {

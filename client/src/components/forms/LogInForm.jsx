@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import {accountLogin} from '../../actions/accountaction'
 
 class LogInForm extends Component {
   constructor(){
@@ -21,7 +22,9 @@ class LogInForm extends Component {
 
     console.log(this.state);
 
+
     // Calls LOGIN API request
+    accountLogin(this.state);
   }
 
 

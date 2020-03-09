@@ -8,6 +8,12 @@ const PORT = 3001;
 // App Configuration
 //
 
+var cors = require('cors');
+var corsOptions = {
+  origin: 'http://localhost:3000'
+}
+app.use(cors(corsOptions));
+
 var passport = require('passport');
 const session = require('express-session');
 app.use(express.json());

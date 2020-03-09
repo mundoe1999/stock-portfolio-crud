@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import {accountSignup} from '../../actions/accountaction'
 
 class SignUpForm extends Component {
   constructor(){
@@ -23,6 +24,8 @@ class SignUpForm extends Component {
     console.log(this.state);
 
     // Calls SIGNUP API request
+    accountSignup(this.state);
+
   }
 
 
