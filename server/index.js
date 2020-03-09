@@ -4,6 +4,13 @@ require('dotenv').config();
 
 const PORT = 3001;
 
+//
+// App Configuration
+//
+
+app.use(express.json());
+
+
 /*********************************************************
 * Connecting to Mongo Database
 **********************************************************/
@@ -23,12 +30,15 @@ db.on('error', () => {
 })
 
 
-/*********************************************************
-* Setting up routes
-**********************************************************/
+// **************************************************************************
+// Route Setup
+// **************************************************************************
+const ACCOUNT_ROUTE = require('./routes/account');
 
 app.get('/', (req,res) => {
   res.send("Connection made to API")
 })
+
+app.use('/account', ACCOUNT_ROUTE);
 
 app.listen(PORT, () => console.log(`Listening to port ${PORT}`))
