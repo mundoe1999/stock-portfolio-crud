@@ -11,6 +11,22 @@ const Transaction = require('../models/transaction');
 const Account = require('../models/account');
 
 
+
+getPreviousStock = (symbol) => {
+  let url = `https://cloud.iexapis.com/stable/stock/${symbol}/quote/previousClose?token=${process.env.IEX_TOKEN}`;
+  return axios
+  .get(url)
+  .then(res => {
+    return res.data;
+  })
+  .catch(err => {
+    console.log("Invalid Stock Symbol");
+    return -1;
+  });
+}
+
+
+
  getLatestStock = (symbol) => {
   let url = `https://cloud.iexapis.com/stable/stock/${symbol}/quote/latestPrice?token=${process.env.IEX_TOKEN}`;
   return axios
@@ -22,8 +38,24 @@ const Account = require('../models/account');
     console.log("Invalid Stock Symbol");
     return -1;
   });
-
 }
+
+router.get('/compare/:symbol', async (req,res) => {
+  // Get Prices based on API
+  let currentPrice = await getLatestStock(req.params.symbol);
+  let LastPrice = await getPreviousStock(req.params.symbol);
+
+  // Return color to change CSS
+  if(currentPrice > LastPrice){
+    res.status(200).json({color: 'green'})
+  }
+  else if(currentPrice < LastPrice){
+    res.status(200).json({color: 'red'})
+  }
+  else {
+    res.status(200).json({color: 'gray'})
+  }
+});
 
 router.get('/', (req, res) => {
   // Splits the authorization Header to get the JWT
@@ -83,6 +115,9 @@ router.post('/', (req,res) => {
     
     let price = await getLatestStock(req.body.symbol);
     // Get Users Money
+    if(price == -1){
+      return res.json({message: "Invalid Ticker"})
+    }
 
       let user_id = decoded.user;
 
