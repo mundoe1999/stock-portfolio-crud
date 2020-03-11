@@ -3,7 +3,7 @@ import Cookies from 'js-cookie';
 
 export const getTransactions = () => {
   return axios
-  .get('http://localhost:3001/stock', {
+  .get('https://fellowship-stocks-api.herokuapp.com/stock', {
     headers: {
       "Authorization": `Bearer ${Cookies.get('user-data')}`,
       "Access-Control-Allow-Origin": "*"
@@ -19,7 +19,7 @@ export const getTransactions = () => {
 
 export const groupTransactions = () => {
   return axios
-  .get('http://localhost:3001/stock/group', {
+  .get('https://fellowship-stocks-api.herokuapp.com/stock/group', {
     headers: {
       "Authorization": `Bearer ${Cookies.get('user-data')}`,
       "Access-Control-Allow-Origin": "*"
@@ -34,7 +34,7 @@ export const groupTransactions = () => {
 
 export const addTransaction = (payment) => {
   return axios
-  .post('http://localhost:3001/stock', payment,
+  .post('https://fellowship-stocks-api.herokuapp.com/stock', payment,
   {
     headers: {
       "Authorization": `Bearer ${Cookies.get('user-data')}`,

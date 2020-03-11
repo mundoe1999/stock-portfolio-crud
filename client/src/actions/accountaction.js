@@ -7,7 +7,7 @@ export const accountSignup = (user, cb) => {
 
   //Send to back-end
   return axios
-  .post('http://localhost:3001/account/register', user, {
+  .post('https://fellowship-stocks-api.herokuapp.com/account/register', user, {
     headers: {"Access-Control-Allow-Origin": "*"}
     })
   .then(res => {
@@ -27,7 +27,7 @@ export const accountLogin = (user, cb) => {
 
   //Send to back-end
   return axios
-  .post('http://localhost:3001/account/login', user, {
+  .post('https://fellowship-stocks-api.herokuapp.com/account/login', user, {
     headers: {"Access-Control-Allow-Origin": "*"}
   })
   .then(res => {
@@ -43,7 +43,7 @@ export const accountLogin = (user, cb) => {
 
 export const getAccountBalance = () => {
   return axios
-  .get('http://localhost:3001/account/balance' , {
+  .get('https://fellowship-stocks-api.herokuapp.com/account/balance' , {
     headers: {
       "Authorization": `Bearer ${Cookies.get('user-data')}`,
       "Access-Control-Allow-Origin": "*"
