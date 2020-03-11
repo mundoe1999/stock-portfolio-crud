@@ -21,13 +21,12 @@ class TransactionForm extends Component {
   handleSubmit = async (e) => {
     e.preventDefault();
 
-    console.log(this.state);
-
+    // Copies Object and erase uneccesary redirect state
+    let transaction = this.state;
+    delete transaction.redirect;
 
     // Calls LOGIN API request
-    let redirect = await addTransaction(this.state);
-
-    console.log(redirect);
+    let redirect = await addTransaction(transaction);
 
     // If transaction was successful, refresh transactions
     if(redirect){

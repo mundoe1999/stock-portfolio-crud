@@ -1,12 +1,13 @@
 const express = require('express');
 const router = express.Router();
 
+
+// Password and Authentication
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
-
 var passport = require('passport');
 
-// Model
+// MongoDB and Models
 const mongoose = require('mongoose');
 const Account = require('../models/account');
 

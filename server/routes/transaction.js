@@ -1,11 +1,15 @@
 const express = require("express");
 const router = express.Router();
-const axios = require('axios');
 require('dotenv').config();
 
+// For doing API requests
+const axios = require('axios');
 
+
+// Password and Authentication
 const jwt = require('jsonwebtoken');
 
+// MongoDB and Models
 const mongoose = require('mongoose');
 const Transaction = require('../models/transaction');
 const Account = require('../models/account');

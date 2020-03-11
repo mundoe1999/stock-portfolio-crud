@@ -4,16 +4,18 @@ require('dotenv').config();
 
 const PORT = 3001;
 
-//
+// **************************************************************************
 // App Configuration
-//
+// **************************************************************************
 
+// CORS setup
 var cors = require('cors');
 var corsOptions = {
   origin: 'http://localhost:3000'
 }
 app.use(cors(corsOptions));
 
+// Passport Setup
 var passport = require('passport');
 const session = require('express-session');
 app.use(express.json());
@@ -31,9 +33,9 @@ app.use(passport.session());
 
 
 
-/*********************************************************
-* Connecting to Mongo Database
-**********************************************************/
+// **************************************************************************
+// Connecting to Mongo Database
+// **************************************************************************
 var mongoose = require('mongoose');
 
 const uri = `mongodb+srv://${process.env.MONGO_USERNAME}:${process.env.MONGO_PASSWORD}@${process.env.MONGO_URL}`;
