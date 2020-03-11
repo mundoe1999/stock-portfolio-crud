@@ -34,11 +34,12 @@ export const groupTransactions = () => {
 
 export const addTransaction = (payment) => {
   return axios
-  .post('http://localhost:3001/stock', {
+  .post('http://localhost:3001/stock', payment,
+  {
     headers: {
       "Authorization": `Bearer ${Cookies.get('user-data')}`,
       "Access-Control-Allow-Origin": "*"
-    }, payment
+    }
   })
   .then(res => {
     console.log(res);

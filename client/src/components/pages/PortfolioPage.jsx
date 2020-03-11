@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 //import {Link} from 'react-router-dom';
 import PortfolioTable from '../tables/PortfolioTable';
+import NavBar from '../utils/NavBar';
 
 class PortfolioPage extends Component{
 
@@ -8,6 +9,7 @@ class PortfolioPage extends Component{
   render(){
     return(
       <div>
+        <NavBar/>
         <PortfolioTable/>
       </div>
     )
