@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import {groupTransactions} from '../../actions/stockation';
 
 class PortfolioTable extends Component {
   constructor(){
@@ -9,14 +8,6 @@ class PortfolioTable extends Component {
     }
   }
   
-  async componentDidMount(){
-    // Loads all of User's Account Data
-    let result = await groupTransactions();
-    // Sum all transactions 
-      this.setState({
-        list: result.transactions || []
-      })
-  }
 
   render() {
     return(
@@ -29,7 +20,7 @@ class PortfolioTable extends Component {
           </tr>
         </thead>
         <tbody>
-          {this.state.list.map((item, key) => (
+          {this.props.list.map((item, key) => (
             <tr key={key} style={{color: item.color}}>
               <td>{item._id}</td>
               <td>{item.totalStocks}</td>

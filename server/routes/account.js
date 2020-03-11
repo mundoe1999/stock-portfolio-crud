@@ -101,4 +101,17 @@ router.post('/login', (req,res, next) => {
 
   })(req,res,next);
 });
+
+router.get('/balance', (req,res) => {
+  let token = req.header('authorization').split(' ');
+  jwt.verify(token[1], 'secretKey', (err,decoded) => {
+    Account.findById(decoded.user._id)
+    .select('balance')
+    .exec((err, money) => {
+      if(err) res.status(404).json({message: "User not found"});
+      else res.status(200).send(money);
+    })
+  });
+})
+
 module.exports = router;

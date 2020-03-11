@@ -8,8 +8,11 @@ class HomePage extends Component {
   render(){
     return (
       <div className="App-header">
+        <div className="flex-container">
         <LogInForm/>
-        Don't have an account? <Link to='/signup'>Click Here!</Link>
+        <p>Don't have an account? <Link to='/signup'>Click Here!</Link></p>
+
+        </div>
       </div>
     )
   }

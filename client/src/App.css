@@ -1,13 +1,3 @@
-.App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-
 
 .App-header {
   background-color: #282c34;
@@ -21,8 +11,15 @@
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.flex-container {
+  display: flex;
+  flex-flow: column;
+  text-align: center;
+  border: 2px solid white;
+  padding: 1em;
+  border-radius: 15px;
+  color: black;
+  background-color: whitesmoke;
 }
 
 
@@ -32,12 +29,19 @@
   padding: 1em;
 }
 
+.form h2{
+  margin-top: 0em;
+}
 input {
   box-sizing: border-box;
   width: 100%;
   padding: 0.5em;
   margin-bottom: 0.5em;
 
+}
+
+button{
+  text-align: left;
 }
 
 
@@ -61,6 +65,9 @@ tr:nth-child(even){
 thead tr{
   background-color: #E8E8E8;
 }
+
+
+
 
 /* Navbar */
 nav {

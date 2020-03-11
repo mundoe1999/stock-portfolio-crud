@@ -7,7 +7,9 @@ class SignUpPage extends Component {
   render(){
     return (
       <div className="App-header">
-        <SignUpForm/>
+        <div className="flex-container">
+          <SignUpForm/>
+        </div>
       </div>
     )
   }
