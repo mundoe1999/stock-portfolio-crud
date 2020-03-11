@@ -7,7 +7,7 @@ class HomePage extends Component {
 
   render(){
     return (
-      <div>
+      <div className="App-header">
         <LogInForm/>
         Don't have an account? <Link to='/signup'>Click Here!</Link>
       </div>

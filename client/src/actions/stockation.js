@@ -41,9 +41,11 @@ export const addTransaction = (payment) => {
       "Access-Control-Allow-Origin": "*"
     }
   })
-  .then(res => {
-    console.log(res);
-    return res.data
+  .then(() => {
+    return true;
   })
-  .catch(err => console.log(err));
+  .catch(err => {
+    console.log(err);
+    return false;
+  });
 }

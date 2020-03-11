@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
-import {accountSignup} from '../../actions/accountaction'
+import {accountSignup} from '../../actions/accountaction';
+import {Redirect} from 'react-router-dom';
 
 class SignUpForm extends Component {
   constructor(){
@@ -7,7 +8,8 @@ class SignUpForm extends Component {
     this.state = {
       name: '',
       email: '',
-      password: ''
+      password: '',
+      redirect: false
     }
   }
 
@@ -18,23 +20,33 @@ class SignUpForm extends Component {
   }
 
   
-  handleSubmit = (e) => {
+  handleSubmit = async (e) => {
     e.preventDefault();
 
-    console.log(this.state);
+
+    // Copies Object and erase uneccesary redirect state
+    let account = this.state;
+    delete account.redirect;
 
     // Calls SIGNUP API request
-    accountSignup(this.state);
+    let redirect = await accountSignup(account);
+
+    console.log(redirect);
+    this.setState({
+      redirect: redirect
+    });
 
   }
 
 
   render(){
-    // If user is logged in, should just go to portfolio page
-
+    // If user is logged in, should just go to login page
+    if(this.state.redirect) return (
+      <Redirect to='/'/>
+    )
     // Render Form
     return(
-      <form onSubmit={this.handleSubmit}>
+      <form onSubmit={this.handleSubmit} className='form'>
         <h2>Register</h2>
         <input
           onChange={this.handleChange} 
@@ -43,7 +55,7 @@ class SignUpForm extends Component {
           placeholder="Enter Full Name"
           required
         />
-
+        <br/>
         <input
           onChange={this.handleChange} 
           type="email"
@@ -51,7 +63,7 @@ class SignUpForm extends Component {
           placeholder="example@email.com"
           required
         />
-
+        <br/>
         <input
           onChange={this.handleChange} 
           type="password"
@@ -59,6 +71,7 @@ class SignUpForm extends Component {
           placeholder="Enter Password"
           required
         />
+        <br/>
         <button type='submit'>Submit</button>
       </form>
     )

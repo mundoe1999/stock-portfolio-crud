@@ -12,14 +12,11 @@ function App() {
   return (
     <Router>
       <Switch>
-      <div className="App">
-      <header className="App-header">
+
         <Route exact path='/' component={pages.HomePage}/>
         <Route exact path='/signup' component={pages.SignUpPage}/>
         <Route exact path='/portfolio' component={pages.PortfolioPage}/>
         <Route exact path='/transactions' component={pages.TransactionPage}/>
-      </header>
-    </div>
 
 
       </Switch>

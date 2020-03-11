@@ -13,9 +13,10 @@
   background-color: #282c34;
   min-height: 100vh;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
-  justify-content: center;
+  justify-content: space-evenly;
+  
   font-size: calc(10px + 2vmin);
   color: white;
 }
@@ -24,3 +25,54 @@
   color: #61dafb;
 }
 
+
+/* Form CSS */
+.form {
+  width: 20vw;
+  padding: 1em;
+}
+
+input {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 0.5em;
+  margin-bottom: 0.5em;
+
+}
+
+
+/* Table CSS */
+table {
+  border: 1px solid white;
+  border-collapse: collapse;
+  width: 40vw;
+  background-color: white;
+  color: black;
+  text-align: center;
+}
+th,td {
+  border-bottom: 1px solid white;
+}
+
+tr:nth-child(even){
+  background-color: #E8E8E8;
+}
+
+thead tr{
+  background-color: #E8E8E8;
+}
+
+/* Navbar */
+nav {
+  display: flex;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  background-color: white;
+  justify-content: flex-end;
+  flex-direction: row;
+}
+
+nav a {
+  padding-right: 1em;
+}

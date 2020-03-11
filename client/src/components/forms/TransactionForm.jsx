@@ -6,7 +6,8 @@ class TransactionForm extends Component {
     super();
     this.state = {
       symbol: '',
-      quantity: ''
+      quantity: '',
+      redirect: false
     }
   }
 
@@ -17,24 +18,29 @@ class TransactionForm extends Component {
   }
 
   
-  handleSubmit = (e) => {
+  handleSubmit = async (e) => {
     e.preventDefault();
 
     console.log(this.state);
 
 
     // Calls LOGIN API request
-    addTransaction(this.state);
+    let redirect = await addTransaction(this.state);
+
+    console.log(redirect);
+
+    // If transaction was successful, refresh transactions
+    if(redirect){
+      this.props.refreshTable();
+    }
+
   }
 
 
   render(){
-    // If user is logged in, should just go to portfolio page
-
-    // Render Form
     return(
       <form onSubmit={this.handleSubmit}>
-        <h2>Login</h2>
+        <h2>Add Ticker</h2>
 
         <input
           onChange={this.handleChange} 

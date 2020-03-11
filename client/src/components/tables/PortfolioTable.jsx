@@ -12,6 +12,7 @@ class PortfolioTable extends Component {
   async componentDidMount(){
     // Loads all of User's Account Data
     let result = await groupTransactions();
+    // Sum all transactions 
       this.setState({
         list: result.transactions || []
       })

@@ -12,9 +12,12 @@ export const accountSignup = (user, cb) => {
     })
   .then(res => {
     console.log(res);
-
+    return true;
   })
-  .catch(err => console.log(err))
+  .catch(err => {
+    console.log(err);
+    return false;
+  })
 }
 
 
@@ -30,6 +33,11 @@ return axios
 .then(res => {
   console.log(res);
   Cookies.set("user-data", res.data.token);
+  return true;
+})
+.catch(err => {
+  console.log(err);
+  return false;
 })
 
 }

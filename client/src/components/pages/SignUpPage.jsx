@@ -6,7 +6,7 @@ class SignUpPage extends Component {
 
   render(){
     return (
-      <div>
+      <div className="App-header">
         <SignUpForm/>
       </div>
     )

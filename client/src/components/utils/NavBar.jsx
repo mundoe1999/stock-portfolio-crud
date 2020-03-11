@@ -7,6 +7,7 @@ class NavBar extends Component {
       <nav>
         <Link to='/portfolio'>Portfolio</Link>
         <Link to='/transactions'>Transaction</Link>
+        <Link to='/logout'>Logout</Link>
       </nav>
     )
   }

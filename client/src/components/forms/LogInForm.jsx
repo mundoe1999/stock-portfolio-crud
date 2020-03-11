@@ -1,12 +1,14 @@
 import React, {Component} from 'react';
-import {accountLogin} from '../../actions/accountaction'
+import {accountLogin} from '../../actions/accountaction';
+import {Redirect} from 'react-router-dom';
 
 class LogInForm extends Component {
   constructor(){
     super();
     this.state = {
       email: '',
-      password: ''
+      password: '',
+      redirect: false
     }
   }
 
@@ -17,23 +19,31 @@ class LogInForm extends Component {
   }
 
   
-  handleSubmit = (e) => {
+  handleSubmit = async (e) => {
     e.preventDefault();
 
-    console.log(this.state);
-
+    let account = this.state;
+    delete account.redirect;
 
     // Calls LOGIN API request
-    accountLogin(this.state);
+    let redirect = await accountLogin(account);
+
+    console.log(redirect);
+    this.setState({
+      redirect: redirect
+    });
   }
 
 
   render(){
     // If user is logged in, should just go to portfolio page
+    if(this.state.redirect) return (
+      <Redirect to='/portfolio'/>
+    )
 
     // Render Form
     return(
-      <form onSubmit={this.handleSubmit}>
+      <form onSubmit={this.handleSubmit} className='form'>
         <h2>Login</h2>
 
         <input
@@ -43,7 +53,7 @@ class LogInForm extends Component {
           placeholder="example@email.com"
           required
         />
-
+        <br/>
         <input
           onChange={this.handleChange} 
           type="password"
@@ -51,6 +61,7 @@ class LogInForm extends Component {
           placeholder="Enter Password"
           required
         />
+        <br/>
         <button type='submit'>Submit</button>
       </form>
     )

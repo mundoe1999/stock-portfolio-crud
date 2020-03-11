@@ -8,7 +8,7 @@ class PortfolioPage extends Component{
   // Call the portfolio page here
   render(){
     return(
-      <div>
+      <div className="App-header">
         <NavBar/>
         <PortfolioTable/>
       </div>
